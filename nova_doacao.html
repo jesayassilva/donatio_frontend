@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+ <!--   -->
+<html>
+	<head>
+	    <meta charset="utf-8">
+		<title>Minhas Doaçoes</title>
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/estilos.css">
+		<link rel="stylesheet" href="css/index.css">
+		<script src="js/angular.min.js"></script>
+    <script src="js/ngStorage.js"></script>
+	</head>
+	<body ng-app="myApp" ng-controller="appCtrl">
+		<script>
+		var app = angular.module('myApp', ['ngStorage']);
+		app.controller('appCtrl',function($scope, $http) {
+		  //$scope.url_server = "http://192.168.133.156:8000";
+			$scope.url_server = "http://localhost:8000";
+			$scope.token = localStorage.token;
+			$scope.caregar_select =  function(){
+		    $http({
+		        method : "GET",
+		        url : $scope.url_server+"/produto/",
+						headers:{"token":localStorage.token},
+		        timeout: 2000
+		        })
+		        .then(function mySuccess(response) {
+							//alert("aki");
+		          $scope.lista_produtos = response.data;
+		          console.log(response.data.token);
+		          //alert(response.data);
+		        }, function myError(response) {
+		          alert(response.data.Erro);
+		        });
+		  };
+
+
+
+		$scope.caregar_select();
+		});
+
+		</script>
+	<header class="container">
+
+				  <h1>Doações Online  <!--<img src="img/logo.png" alt="Mirror Fashion">*/-->
+				 	</h1>
+
+	    <nav class="menu-opcoes">
+		  <ul>
+			<li><a href="index.html">Doações</a></li>
+			<li><a href="minhas_doacoes.html">Minhas Doações</a></li>
+			<li><a href="minhas_solicitacoes.html">Lista solicitações</a></li>
+			<li>
+				<a href="sign_in.html">Sair</a>
+			</li>
+		  </ul>
+	    </nav>
+	</header>
+
+	</section><!-- fim .menu-departamentos -->
+	</div><!-- fim .container .destaque -->
+<div class="container paineis">
+	<!-- os paineis de novidades e mais vendidos entrarão aqui dentro -->
+
+	<h2>Nova Doação </h2>
+
+	<form action="http://localhost:8000/cadastro_doacao/" id="formulario" method="post" enctype="multipart/form-data">
+
+		<label for="descricao">
+			Descricao:
+			<p>
+			</p>
+			<textarea type="text" name="descricao" maxlength="500" required="" id="id_descricao "  rows="5" cols="40">
+			</textarea>
+		</label>
+		<p>
+		</p>
+		<input class="esconder" type="password" name="token" value="{{token}}">
+
+		<label for="Produto">
+			Produto:
+			<select ng-model="produto" name="produto">
+				<option value="{{produto.id}}" ng-repeat="produto in lista_produtos" > {{produto.nome}}</option>
+			</select>
+		</label>
+		<p>
+		</p>
+
+		<label for="Foto">
+			Foto:
+    	<input type="file" name="foto" required="" id="id_foto">
+		</label>
+		<p>
+		</p>
+    <button type="submit" >Criar Doação</button>
+
+</form>
+
+
+
+</div>
+	<footer>
+		<div class="container final">
+			<ul class="social">
+				<li><a href="https://www.facebook.com/techcenterfloriano?fref=ts">Facebook da página</a></li>
+				<li><a href="http://twitter.com">Twitter da página </a></li>
+				<li><a href="http://plus.google.com">Google+ da página </a></li>
+			</ul>
+		</div>
+	</footer>
+	<!--<script src="js/home.js"></script>-->
+	</body>
+</html>

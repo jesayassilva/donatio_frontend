@@ -1,0 +1,197 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign Up</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="css/login.css">
+    <script src="js/angular.min.js"></script>
+    <script src="js/ngStorage.js"></script>
+</head>
+<script>
+var app = angular.module('myApp', ['ngStorage']);
+app.controller('appCtrl',function($scope, $http) {
+  $scope.username = "";
+  $scope.password = "";
+  $scope.first_name = "";
+  $scope.last_name = "";
+  $scope.email = "";
+
+  $scope.telefone1  = "";
+  $scope.telefone2  = "";
+  $scope.uf  = "";
+  $scope.cidade  = "";
+  $scope.endereco  = "";
+  $scope.tipo_usuario  = "";
+  $scope.idade  = 0;
+
+
+  localStorage.token = null;
+  //$scope.url_server = "http://192.168.133.156:8000";
+  $scope.url_server = "http://localhost:8000";
+  $scope.novo_user =  function(){
+    $http({
+        method : "POST",
+        url : $scope.url_server+"/user/",
+        data: {
+       "password":$scope.password,
+      "is_superuser": false,
+      "username":$scope.username,
+      "first_name": $scope.first_name,
+      "last_name": $scope.last_name,
+      "email": $scope.email,
+
+      "telefone1": $scope.telefone1,
+      "telefone2": $scope.telefone2,
+      "uf" : $scope.uf,
+      "cidade" : $scope.cidade,
+      "endereco": $scope.endereco,
+      "tipo_usuario": $scope.tipo_usuario,
+      "idade" : $scope.idade
+
+        },
+        timeout: 1500
+        })
+        .then(function mySuccess(response) {
+          alert("Cadastrado com Sucesso");
+          //localStorage.token = response.data.token;
+          //console.log(response.data.token);
+          location.href="sign_in2.html"
+        }, function myError(response) {
+          alert(response.data.Erro);
+        });
+      };
+
+
+});
+</script>
+
+<body ng-app="myApp" ng-controller="appCtrl">
+    <form action="/login?">
+        <p id="logo">Donatio</p>
+
+        <div id="wrap">
+          <h2>Inscrever-se</h2>
+            <label for="username">
+                Usuario:
+                <p>
+                </p>
+                <input name="username" type="text"  ng-model="username"/>
+            </label>
+            <p>
+            </p>
+
+            <label for="email">
+                Email:
+                <p>
+                </p>
+                <input name="email" type="text"  ng-model="email"/>
+            </label>
+            <p>
+            </p>
+
+            <label for="password">
+                Senha        :
+                <p>
+                </p>
+                <input name="password"  ng-model="password" type="password" />
+            </label>
+            <p>
+            </p>
+
+            <label for="first_name">
+                Primeiro nome:
+                <p>
+                </p>
+                <input name="first_name" type="text"  ng-model="first_name"/>
+            </label>
+            <p>
+            </p>
+
+            <label for="last_name">
+                Último nome  :
+                <p>
+                </p>
+                <input name="last_name" type="text"  ng-model="last_name"/>
+            </label>
+            <p>
+            </p>
+
+            <label for="telefone1">
+                telefone 1  :
+                <p>
+                </p>
+                <input name="telefone1" type="text"  ng-model="telefone1"/>
+            </label>
+            <p>
+            </p>
+
+            <label for="telefone2">
+                telefone2  :
+                <p>
+                </p>
+                <input name="telefone2" type="text"  ng-model="telefone2"/>
+            </label>
+            <p>
+            </p>
+
+            <label for="uf">
+                uf  :
+                <p>
+                </p>
+                <input name="uf" type="text"  ng-model="uf"/>
+            </label>
+            <p>
+            </p>
+
+            <label for="cidade">
+                cidade  :
+                <p>
+                </p>
+                <input name="cidade" type="text"  ng-model="cidade"/>
+            </label>
+            <p>
+            </p>
+
+            <label for="endereco">
+                endereco  :
+                <p>
+                </p>
+                <input name="endereco" type="text"  ng-model="endereco"/>
+            </label>
+            <p>
+            </p>
+
+            <label for="tipo_usuario">
+        			tipo_usuario:
+              <p>
+          		</p>
+        			<select ng-model="tipo_usuario" name="categoria">
+        				<option value="Pessoa Física" >Pessoa Física</option>
+                <option value="Pessoa Jurídica" >Pessoa Jurídica</option>
+        			</select>
+        		</label>
+
+            <p>
+            </p>
+
+            <label for="idade">
+                idade  :
+                <p>
+                </p>
+                <input name="uf" type="text"  ng-model="idade"/>
+            </label>
+            <p>
+            </p>
+
+
+
+
+            <label for="Cadastrar">
+                <input name="Cadastrar" type="button" value="Cadastrar" ng-click="novo_user()" />
+            </label>
+            <hr>
+        </div>
+    </form>
+
+</body>
+</html>

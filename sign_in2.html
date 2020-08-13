@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign in</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="css/login.css">
+    <script src="js/angular.min.js"></script>
+    <script src="js/ngStorage.js"></script>
+</head>
+<script>
+var app = angular.module('myApp', ['ngStorage']);
+app.controller('appCtrl',function($scope, $http) {
+  $scope.username = "jesaias";
+  $scope.password = "12345abc";
+  localStorage.token = null;
+  //$scope.url_server = "http://192.168.133.156:8000";
+  $scope.url_server = "http://localhost:8000";
+  $scope.login =  function(){
+    $http({
+        method : "POST",
+        url : $scope.url_server+"/login/",
+        data: {
+          "username":$scope.username,
+          "password":$scope.password,
+        },
+        timeout: 1500
+        })
+        .then(function mySuccess(response) {
+          localStorage.token = response.data.token;
+          localStorage.usuario_id = response.data.usuario_id;
+          console.log(response.data.token);
+          location.href="index2.html"
+        }, function myError(response) {
+          alert(response.data.Erro);
+        });
+  };
+});
+</script>
+
+<body ng-app="myApp" ng-controller="appCtrl">
+    <form action="/login?">
+        <p id="logo">Donatio</p>
+        <div id="wrap">
+            <label for="username">
+                Usuario:
+                <input name="username" type="text"  ng-model="username"/>
+            </label>
+
+            <label for="password">
+                Senha:
+                <input name="password"  ng-model="password" type="password" />
+            </label>
+
+            <label for="login">
+                <input name="login" type="button" value="Login" ng-click="login()" />
+            </label>
+            <hr>
+            <label for="sendpassword">
+              <a href="sign_up2.html">Inscrever-se</a>
+            </label>
+            <p>
+            </p>
+            <label for="sendpassword">
+              <a href="#">Esqueci minha senha</a>
+            </label>
+
+        </div>
+    </form>
+
+</body>
+</html>

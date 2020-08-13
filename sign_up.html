@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign Up</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="css/login.css">
+    <script src="js/angular.min.js"></script>
+    <script src="js/ngStorage.js"></script>
+</head>
+<script>
+var app = angular.module('myApp', ['ngStorage']);
+app.controller('appCtrl',function($scope, $http) {
+  $scope.username = "";
+  $scope.password = "";
+  $scope.first_name = "";
+  $scope.last_name = "";
+  $scope.email = "";
+  localStorage.token = null;
+  //$scope.url_server = "http://192.168.133.156:8000";
+  $scope.url_server = "http://localhost:8000";
+  $scope.novo_user =  function(){
+    $http({
+        method : "POST",
+        url : $scope.url_server+"/user/",
+        data: {
+       "password":$scope.password,
+      "is_superuser": false,
+      "username":$scope.username,
+      "first_name": $scope.first_name,
+      "last_name": $scope.last_name,
+      "email": $scope.email
+        },
+        timeout: 1500
+        })
+        .then(function mySuccess(response) {
+          //localStorage.token = response.data.token;
+          //console.log(response.data.token);
+          //location.href="index.html"
+          alert("Cadastrado");
+        }, function myError(response) {
+          alert(response.data.Erro);
+        });
+      };
+
+
+});
+</script>
+
+<body ng-app="myApp" ng-controller="appCtrl">
+    <form action="/login?">
+        <p id="logo">Doações Online</p>
+
+        <div id="wrap">
+          <h2>Inscrever-se</h2>
+            <label for="username">
+                Usuario:
+                <p>
+                </p>
+                <input name="username" type="text"  ng-model="username"/>
+            </label>
+            <p>
+            </p>
+
+            <label for="email">
+                Email:
+                <p>
+                </p>
+                <input name="email" type="text"  ng-model="email"/>
+            </label>
+            <p>
+            </p>
+
+            <label for="password">
+                Senha        :
+                <p>
+                </p>
+                <input name="password"  ng-model="password" type="password" />
+            </label>
+            <p>
+            </p>
+
+            <label for="first_name">
+                Primeiro nome:
+                <p>
+                </p>
+                <input name="first_name" type="text"  ng-model="first_name"/>
+            </label>
+            <p>
+            </p>
+
+            <label for="last_name">
+                Último nome  :
+                <p>
+                </p>
+                <input name="last_name" type="text"  ng-model="last_name"/>
+            </label>
+            <p>
+            </p>
+
+            <label for="Cadastrar">
+                <input name="Cadastrar" type="button" value="Cadastrar" ng-click="novo_user()" />
+            </label>
+            <hr>
+        </div>
+    </form>
+
+</body>
+</html>

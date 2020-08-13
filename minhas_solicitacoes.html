@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+ <!--   -->
+<html>
+	<head>
+	    <meta charset="utf-8">
+		<title>Minhas Doaçoes</title>
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/estilos.css">
+		<link rel="stylesheet" href="css/index.css">
+		<script src="js/angular.min.js"></script>
+    <script src="js/ngStorage.js"></script>
+	</head>
+	<body ng-app="myApp" ng-controller="appCtrl">
+		<script>
+		var app = angular.module('myApp', ['ngStorage']);
+		app.controller('appCtrl',function($scope, $http) {
+		  //$scope.url_server = "http://192.168.133.156:8000";
+			$scope.url_server = "http://localhost:8000";
+			$scope.doacoes_pedidas =  function(){
+		    $http({
+		        method : "GET",
+		        url : $scope.url_server+"/doacoes_pedidas/",
+						headers:{"token":localStorage.token},
+		        timeout: 2000
+		        })
+		        .then(function mySuccess(response) {
+							//alert("aki");
+		          $scope.lista_doacoes_pedidas = response.data;
+		          console.log(response.data.token);
+
+		          //alert(response.data);
+		        }, function myError(response) {
+		          alert(response.data.Erro);
+		        });
+		  };
+
+			$scope.doacoes_concluidas =  function(){
+		    $http({
+		        method : "GET",
+		        url : $scope.url_server+"/doacoes_concluidas/",
+						headers:{"token":localStorage.token},
+		        timeout: 2000
+		        })
+		        .then(function mySuccess(response) {
+							//alert("aki");
+		          $scope.lista_doacoes_concluidas = response.data;
+		          console.log(response.data.token);
+
+		          //alert(response.data);
+		        }, function myError(response) {
+		          alert(response.data.Erro);
+		        });
+		  };
+
+			$scope.doacoes_pedidas();
+			$scope.doacoes_concluidas();
+		});
+
+		</script>
+	<header class="container">
+
+				  <h1>Doações Online  <!--<img src="img/logo.png" alt="Mirror Fashion">*/-->
+				 	</h1>
+
+	    <nav class="menu-opcoes">
+		  <ul>
+			<li><a href="index.html">Doações</a></li>
+			<li><a href="minhas_doacoes.html">Minhas Doações</a></li>
+			<li><a href="minhas_solicitacoes.html">Lista solicitações</a></li>
+			<li>
+				<a href="sign_in.html">Sair</a>
+			</li>
+		  </ul>
+	    </nav>
+	</header>
+
+	</section><!-- fim .menu-departamentos -->
+	</div><!-- fim .container .destaque -->
+<div class="container paineis">
+	<!-- os paineis de novidades e mais vendidos entrarão aqui dentro -->
+
+	<h2>Minhas Doações</h2>
+
+	<div ng-repeat="item_doacoes in lista_doacoes_pedidas">
+	<li>
+		<img src= "{{url_server}}{{item_doacoes.url_img}}" alt="A imgem não carregou ">
+		<h4>{{item_doacoes.nome_produto}}</h4>
+		<p>{{item_doacoes.descricao_produto}}
+		</p>
+		<p>Doado por: {{item_doacoes.doador.nome}} {{item_doacoes.doador.sobrenome}}
+		</p>
+		<p>Tipo Usuario: {{item_doacoes.tipo_usuario}}
+		</p>
+		<p>Data da Postagem : {{item_doacoes.data_criacao}}
+		</p>
+		<p>{{item_doacoes.cidade}} - {{item_doacoes.uf}}
+		</p>
+		<p>Email: {{item_doacoes.doador.email}}
+		 Telefone: {{item_doacoes.telefone1}}
+		</p>
+
+		<input name="login" type="submit" value="Retirar Interesse" />
+	</li>
+	<p>
+	</p>
+	</div>
+
+	<div ng-repeat="item_doacoes in lista_doacoes_concluidas">
+	<li>
+		<img src= "{{url_server}}{{item_doacoes.url_img}}" alt="A imgem não carregou ">
+		<h4>{{item_doacoes.nome_produto}}</h4>
+		<p>{{item_doacoes.descricao_produto}}
+		</p>
+		<p>Doado por: {{item_doacoes.doador.nome}} {{item_doacoes.doador.sobrenome}}
+		</p>
+		<p>Tipo Usuario: {{item_doacoes.tipo_usuario}}
+		</p>
+		<p>Data da Postagem : {{item_doacoes.data_criacao}}
+		</p>
+		<p>{{item_doacoes.cidade}} - {{item_doacoes.uf}}
+		</p>
+		<p>Email: {{item_doacoes.doador.email}}
+		 Telefone: {{item_doacoes.telefone1}}
+		</p>
+		<p>Situação: Doação Recebida
+		</p>
+	</li>
+	<p>
+	</p>
+	</div>
+
+
+
+</div>
+	<footer>
+		<div class="container final">
+			<ul class="social">
+				<li><a href="https://www.facebook.com/techcenterfloriano?fref=ts">Facebook da página</a></li>
+				<li><a href="http://twitter.com">Twitter da página </a></li>
+				<li><a href="http://plus.google.com">Google+ da página </a></li>
+			</ul>
+		</div>
+	</footer>
+	<!--<script src="js/home.js"></script>-->
+	</body>
+</html>
